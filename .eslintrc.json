@@ -1,3 +1,35 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    // TypeScript specific rules
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+
+    // React hooks rules
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+
+    // Browser API handling
+    "no-restricted-globals": "warn",
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+
+    // Error handling
+    "no-try-catch-without-finally": "off",
+    "no-empty-catch": "off",
+
+    // Next.js specific rules
+    "@next/next/no-html-link-for-pages": "error",
+    "@next/next/no-img-element": "warn",
+
+    // Accessibility
+    "jsx-a11y/media-has-caption": "off",
+    "jsx-a11y/no-autofocus": "off"
+  }
 }
