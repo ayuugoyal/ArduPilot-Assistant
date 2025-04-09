@@ -2,6 +2,8 @@
 
 A Next.js application that enables natural language control of ArduPilot vehicles through text and voice commands. This project serves as preliminary work for the GSoC 2025 proposal "AI Chat WebTool for ArduPilot."
 
+## Demo
+https://github.com/user-attachments/assets/75a4434a-f84d-4847-9a21-59da227f3386
 
 ## System Architecture
 
