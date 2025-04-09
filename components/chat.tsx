@@ -55,7 +55,9 @@ export function Chat() {
       const vehicleState = mavlink.getState()
 
       // Process with Gemini API
-      const response = await processWithGemini(input, vehicleState)
+      console.log("Processing with Gemini API...")
+      console.log(messages)
+      const response = await processWithGemini([...messages, userMessage], vehicleState)
 
       // Execute any actions returned by the AI
       if (response.actions && response.actions.length > 0) {

@@ -36,9 +36,27 @@ When responding to user requests:
 - Never perform unsafe operations
 
 Your responses should include both a text reply and any actions that should be executed.
+
+you will be given an array of objects which represent the chat history as vairable CHAT_HISTORY. Each object will have the following properties:
+Message = {
+  id: string
+  content: string
+  role: "user" | "assistant"
+  timestamp: Date
+}
+
+repond by analyzing the chat history and the current vehicle state.
 `
 
-export async function processWithGemini(userInput: string, vehicleState: VehicleState): Promise<AIResponse> {
+type Message = {
+  id: string
+  content: string
+  role: "user" | "assistant"
+  timestamp: Date
+}
+
+
+export async function processWithGemini(userInput: Message[], vehicleState: VehicleState): Promise<AIResponse> {
   try {
     console.log("Calling Gemini API with user input:", userInput)
     const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${GEMINI_API_KEY}`, {
@@ -61,11 +79,13 @@ export async function processWithGemini(userInput: string, vehicleState: Vehicle
                 Heading: ${vehicleState.heading.toFixed(0)} degrees
                 Ground Speed: ${vehicleState.groundspeed.toFixed(1)} m/s
                 
-                User request: ${userInput}
+                message history: ${JSON.stringify(userInput)}
                 
-                Respond with a JSON object containing:
+                Respond with a JSON object containing the following:
                 1. text: Your response to the user
                 2. actions: Array of actions to perform (optional)
+
+                DO NOT GIVE ANYTHING ELSE EXCEPT THE JSON OBJECT.
                 
                 Example:
                 {
@@ -101,7 +121,7 @@ export async function processWithGemini(userInput: string, vehicleState: Vehicle
   } catch (error) {
     console.error("Error calling Gemini API:", error);
     
-    return simulateGeminiResponse(userInput, vehicleState);
+    return simulateGeminiResponse(userInput.filter((message) => message.role === "user" && message.content !== SYSTEM_PROMPT).map((message) => message.content).join(" "), vehicleState);
   }
 }
 
